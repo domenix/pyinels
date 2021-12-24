@@ -28,12 +28,15 @@ ATTR_THERM = "therm"
 DEVICE_TYPE_DICT = {
     "undefined": "undefined",
     "lights": "light",
+    "lamps": "light",
     "on_off": "switch",
     "shutters": "shutter",
     "heat-control": "therm",
+    "thermals": "therm",
     "heating": "heating",
     "garage": "door",
     "gate": "door"
+    # "scenes": "tobecontinued"
 }
 
 INELS_BUS_ATTR_DICT = {
@@ -51,7 +54,7 @@ INELS_BUS_ATTR_DICT = {
 
 DIRECTIONS_DICT = {
     "Up": "up",
-    "Dwon": "down",
+    "Down": "down",
     "Stop": "stop"
 }
 

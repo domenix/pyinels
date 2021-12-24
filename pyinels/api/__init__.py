@@ -85,7 +85,7 @@ class Api:
         return self.proxy.getRooms()
 
     def getRoomDevicesRaw(self, room_name):
-        """List of all devices in deffined room."""
+        """List of all devices in given room."""
         return self.proxy.getRoomDevices(room_name)
 
     def getRoomDevices(self, room_name):
@@ -97,8 +97,10 @@ class Api:
         devices = []
 
         rooms = self.getRooms()
+        # rooms = ['fürdőszoba']
         # go trough all rooms
         for room in rooms:
+            # print('ROOM:', room)
             room_devices = self.getRoomDevices(room)
             # go trough all devices in room
             for room_dev in room_devices:
@@ -176,12 +178,20 @@ class Api:
         raw_list = self.getRoomDevicesRaw(room_name)
         devices_list = raw_list.split('\n')
 
+        # print (raw_list)
+        # return
+
         for item in devices_list:
             start = len(item) - 1
             end = len(item)
+
+            # print("String received from Inels:", item)
             if start > 0:
                 if item[start:end] == ":":
                     d_type = item[0:start]
+
+                    # if d_type in "scenes":
+                        # break
                 else:
                     json_dev = item.split('" ')
                     obj = {}
@@ -191,13 +201,16 @@ class Api:
                         frag = prop.split("=")
                         obj[frag[0]] = frag[1].replace("\"", " ").strip()
 
-                    obj[INELS_BUS_ATTR_DICT
-                        .get(ATTR_TYPE)] = DEVICE_TYPE_DICT.get(d_type)
+                    obj[INELS_BUS_ATTR_DICT.get(ATTR_TYPE)] = DEVICE_TYPE_DICT.get(d_type)
+
+                    print(f"obj: {obj} , d_type: {d_type}")
 
                     obj = self.__recognizeAndSetUniqueIdToDevice(obj)
 
                     device = Device(obj, self)
                     device.get_value()
+
+                    # print("THIS IS AN ID:", device.id)
 
                     devices.append(device)
 
@@ -225,12 +238,23 @@ class Api:
 
         # use a switch to create identifier inside of the raw data
         # from usefull attributes
+
+        # print("DOES THS GET HIT2")
+        # print(raw_device)
+
+        # Todo - this part does not get hit, if it has an inels property
         if INELS_BUS_ATTR_DICT.get(ATTR_ID) not in raw_device:
             switcher = {
                 ATTR_SHUTTER: partial(set_shutter_id, raw_device),
                 ATTR_THERM: partial(set_therm_id, raw_device)
             }
 
+            # print("DOES THS GET HIT")
+            # print(raw_device)
+            # print(switcher.get(raw_device[INELS_BUS_ATTR_DICT.get(ATTR_TYPE)]))
+
+            
+            # print(raw_device[INELS_BUS_ATTR_DICT.get(ATTR_TYPE)])
             fnc = switcher.get(raw_device[INELS_BUS_ATTR_DICT.get(ATTR_TYPE)])
             # call selected function to set the identifier
             raw_device = fnc()
