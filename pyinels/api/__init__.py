@@ -190,8 +190,8 @@ class Api:
                 if item[start:end] == ":":
                     d_type = item[0:start]
 
-                    # if d_type in "scenes":
-                        # break
+                    if d_type in "scenes":
+                        break
                 else:
                     json_dev = item.split('" ')
                     obj = {}
