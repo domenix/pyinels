@@ -3,8 +3,8 @@ from setuptools import setup, find_packages
 from pyinels.const import NAME, VERSION
 
 
-setup(name=NAME,
-      version=VERSION,
+setup(name="pyinels-domenix-dev",
+      version="0.1.5",
       url='https://github.com/JH-Soft-Technology/pyinels',
       license='MIT',
       author='JH Soft Technology',
@@ -17,9 +17,7 @@ setup(name=NAME,
       long_description=open('README.md').read(),
       zip_safe=False,
       classifiers=[
-          "License :: OSI Approved :: MIT License",
-          "Programming Language :: Python :: 3",
-          "Programming Language :: Python :: 3.9",
+          "License :: OSI Approved :: MIT License"
       ],
       packages=find_packages(),
       test_suite='unittest')

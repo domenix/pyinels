@@ -58,7 +58,7 @@ DIRECTIONS_DICT = {
     "Stop": "stop"
 }
 
-NAME = "pyinels"
+NAME = "pyinels-domenix-dev"
 
 RANGE_BLIND = (0, 100)
 RANGE_BRIGHTNESS = (0.0, 100.0)
