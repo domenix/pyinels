@@ -3,8 +3,8 @@ from setuptools import setup, find_packages
 from pyinels.const import NAME, VERSION
 
 
-setup(name="pyinels-domenix-dev",
-      version="0.1.5",
+setup(name=NAME,
+      version=VERSION,
       url='https://github.com/JH-Soft-Technology/pyinels',
       license='MIT',
       author='JH Soft Technology',

@@ -5,6 +5,8 @@ from functools import partial
 from pyinels.device import Device
 
 from pyinels.const import (
+    NAME,
+    VERSION,
     ATTR_DOWN,
     ATTR_GROUP,
     ATTR_ID,
@@ -30,7 +32,6 @@ from xmlrpc.client import ServerProxy
 
 _LOGGER = logging.getLogger(__name__)
 
-
 class Api:
     """Class of iNels BUS."""
 
@@ -41,6 +42,9 @@ class Api:
         self.__version = version
         self.__proxy = None
         self.__devices = None
+
+        self.package_name = NAME
+        self.package_version = VERSION
 
     @property
     def proxy(self):
@@ -77,6 +81,12 @@ class Api:
     def ping(self):
         """Check connection iNels BUS with ping."""
         return self.proxy.ping()
+
+    def get_package_name(self):
+        return self.package_name
+
+    def get_package_version(self):
+        return self.package_version
 
     def getPlcIp(self):
         """Get Ip address of PLC."""
@@ -180,32 +190,29 @@ class Api:
         raw_list = self.getRoomDevicesRaw(room_name)
         devices_list = raw_list.split('\n')
 
-        # print (raw_list)
-        # return
-
         for item in devices_list:
             start = len(item) - 1
             end = len(item)
 
-            # print("String received from Inels:", item)
             if start > 0:
                 if item[start:end] == ":":
                     d_type = item[0:start]
 
-                    # if d_type in "scenes":
-                    #     break
+                    # Ignore 
+                    if d_type in "blank":
+                        break
                 else:
                     json_dev = item.split('" ')
                     obj = {}
                     obj[INELS_BUS_ATTR_DICT.get(ATTR_GROUP)] = room_name
-
+                    
                     for prop in json_dev:
                         frag = prop.split("=")
-                        obj[frag[0]] = frag[1].replace("\"", " ").strip()
+                        try:
+                            obj[frag[0]] = frag[1].replace("\"", " ").strip()
+                        except IndexError:
+                            continue
 
-                    # obj[INELS_BUS_ATTR_DICT.get(ATTR_TYPE)] = DEVICE_TYPE_DICT.get(d_type)
-
-                    # print(f"obj: {obj} , d_type: {d_type}")
 
                     obj[INELS_BUS_ATTR_DICT
                         .get(ATTR_TYPE)] = DEVICE_TYPE_DICT.get(
@@ -216,6 +223,7 @@ class Api:
                     device = Device(obj, self)
                     device.get_value()
 
+                    # TODO - remove
                     # print("THIS IS AN ID:", device.id)
 
                     devices.append(device)
@@ -252,9 +260,6 @@ class Api:
         # use a switch to create identifier inside of the raw data
         # from usefull attributes
 
-        # print("DOES THS GET HIT2")
-        # print(raw_device)
-
         # Todo - this part does not get hit, if it has an inels property
         if INELS_BUS_ATTR_DICT.get(ATTR_ID) not in raw_device:
             switcher = {
@@ -263,12 +268,6 @@ class Api:
                 ATTR_UNKNOWN: partial(set_not_known_id_from_name, raw_device)
             }
 
-            # print("DOES THS GET HIT")
-            # print(raw_device)
-            # print(switcher.get(raw_device[INELS_BUS_ATTR_DICT.get(ATTR_TYPE)]))
-
-            
-            # print(raw_device[INELS_BUS_ATTR_DICT.get(ATTR_TYPE)])
             fnc = switcher.get(raw_device[INELS_BUS_ATTR_DICT.get(ATTR_TYPE)])
             # call selected function to set the identifier
             raw_device = fnc()

@@ -1,3 +1,6 @@
+NAME = "pyinels-domenix-dev"
+VERSION = "0.2.3"
+
 """Const of iNels BUS."""
 
 # Inels attributes
@@ -59,8 +62,6 @@ DIRECTIONS_DICT = {
     "Stop": "stop"
 }
 
-NAME = "pyinels-domenix-dev"
-
 RANGE_BLIND = (0, 100)
 RANGE_BRIGHTNESS = (0.0, 100.0)
 
@@ -82,5 +83,3 @@ STATE_OPEN = "open"
 STATE_OPENING = "opening"
 STATE_CLOSED = "closed"
 STATE_CLOSING = "closing"
-
-VERSION = "0.6.11"
