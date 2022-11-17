@@ -214,9 +214,7 @@ class Api:
                             continue
 
 
-                    obj[INELS_BUS_ATTR_DICT
-                        .get(ATTR_TYPE)] = DEVICE_TYPE_DICT.get(
-                            d_type, "unknown")
+                    obj[INELS_BUS_ATTR_DICT.get(ATTR_TYPE)] = DEVICE_TYPE_DICT.get(d_type, "unknown")
 
                     obj = self.__recognizeAndSetUniqueIdToDevice(obj)
 
@@ -237,16 +235,13 @@ class Api:
 
         def set_shutter_id(dev):
             """Set the id to the shutter."""
-            dev[INELS_BUS_ATTR_DICT.get(
-                ATTR_ID)] = dev[INELS_BUS_ATTR_DICT.get(ATTR_UP)] + \
-                "_" + dev[INELS_BUS_ATTR_DICT.get(ATTR_DOWN)]
+            dev[INELS_BUS_ATTR_DICT.get(ATTR_ID)] = dev[INELS_BUS_ATTR_DICT.get(ATTR_UP)] + "_" + dev[INELS_BUS_ATTR_DICT.get(ATTR_DOWN)]
 
             return dev
 
         def set_therm_id(dev):
             """Set the id to the therms."""
-            dev[INELS_BUS_ATTR_DICT.get(
-                ATTR_ID)] = dev[INELS_BUS_ATTR_DICT.get(ATTR_TEMP)]
+            dev[INELS_BUS_ATTR_DICT.get(ATTR_ID)] = dev[INELS_BUS_ATTR_DICT.get(ATTR_TEMP)]
 
             return dev
 

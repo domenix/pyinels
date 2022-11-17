@@ -16,8 +16,7 @@ class pyBase:
     @property
     def state(self):
         """Return the state of the switch."""
-        return (True if int(self._device.value[self._device.id])
-                == ATTR_SWITCH_ON else False)
+        return (True if int(self._device.value[self._device.id]) == ATTR_SWITCH_ON else False)
 
     @property
     def name(self):
@@ -29,17 +28,21 @@ class pyBase:
         """Unique id of the device."""
         return self._device.id
 
+    # TODO group -> suggested area
+    @property
+    def group(self):
+        """Unique id of the device."""
+        return self._device.group
+
     @property
     def up(self):
         """Value of shutter for up."""
-        return self._device.value[self._device.up if self._device.up
-                                  is not None else self._device.id]
+        return self._device.value[self._device.up if self._device.up is not None else self._device.id]
 
     @property
     def down(self):
         """Value of sutter for down."""
-        return self._device.value[self._device.down if self._device.down
-                                  is not None else self._device.id]
+        return self._device.value[self._device.down if self._device.down is not None else self._device.id]
 
     @property
     def value(self):
