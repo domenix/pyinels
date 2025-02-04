@@ -1,3 +1,7 @@
+NAME = "pyinels-domenix-dev"
+VERSION = "0.2.5"
+
+
 """Const of iNels BUS."""
 
 # Inels attributes
@@ -44,6 +48,7 @@ DEVICE_TYPE_DICT = {
     "heating": "heating",
     "heat-control": "therm",
     "lights": "light",
+    "lamps": "light",
     "meter": "meter",
     "on_off": "switch",
     "scenes": "scenes",
@@ -84,8 +89,6 @@ UNITS_DICT = {
 
 ERROR_VALUE = -1
 
-NAME = "pyinels"
-
 RANGE_BLIND = (0, 100)
 RANGE_BRIGHTNESS = (0.0, 100.0)
 
@@ -107,5 +110,3 @@ STATE_CLOSED = "closed"
 STATE_CLOSING = "closing"
 STATE_OPEN = "open"
 STATE_OPENING = "opening"
-
-VERSION = "0.6.15"

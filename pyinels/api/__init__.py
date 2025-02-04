@@ -5,6 +5,8 @@ from functools import partial
 from pyinels.device import Device
 
 from pyinels.const import (
+    NAME,
+    VERSION,
     ATTR_DOWN,
     ATTR_GROUP,
     ATTR_ID,
@@ -52,6 +54,13 @@ class Api:
         self.__proxy = self.__conn()
         return self.__proxy
 
+    def get_package_name(self):
+        return self.package_name
+
+    def get_package_version(self):
+        return self.package_version
+
+
     @property
     def devices(self):
         """Loaded devices by getAllDevices."""
@@ -88,7 +97,7 @@ class Api:
         return self.proxy.getRooms()
 
     def getRoomDevicesRaw(self, room_name):
-        """List of all devices in deffined room."""
+        """List of all devices in given room."""
         return self.proxy.getRoomDevices(room_name)
 
     def getRoomDevices(self, room_name):
@@ -172,7 +181,7 @@ class Api:
         self.proxy.writeValues(command)
 
     def __roomDevicesToJson(self, room_name):
-        """Create json object from devices listed in preffered room."""
+        """Create json object from devices listed in preferred room."""
         d_type = None
         devices = []
 
@@ -185,6 +194,8 @@ class Api:
             if start > 0:
                 if item[start:end] == ":":
                     d_type = item[0:start]
+                    # if d_type in "blank":
+                    #     break
                 else:
                     json_dev = item.split('" ')
                     obj = {}
@@ -192,7 +203,10 @@ class Api:
 
                     for prop in json_dev:
                         frag = prop.split("=")
-                        obj[frag[0]] = frag[1].replace("\"", " ").strip()
+                        try:
+                            obj[frag[0]] = frag[1].replace("\"", " ").strip()
+                        except IndexError:
+                            continue
 
                     obj[INELS_BUS_ATTR_DICT
                         .get(ATTR_TYPE)] = DEVICE_TYPE_DICT.get(
